@@ -15,6 +15,7 @@ use sp1_core::{
 };
 use sp1_primitives::poseidon2_hash;
 use sp1_recursion_core::{air::RecursionPublicValues, stark::config::BabyBearPoseidon2Outer};
+#[cfg(feature = "host")]
 use sp1_recursion_gnark_ffi::{plonk_bn254::PlonkBn254Proof, Groth16Proof};
 use thiserror::Error;
 
@@ -143,9 +144,11 @@ pub type SP1CoreProof = SP1ProofWithMetadata<SP1CoreProofData>;
 /// within SP1 programs.
 pub type SP1ReducedProof = SP1ProofWithMetadata<SP1ReducedProofData>;
 
+#[cfg(feature = "host")]
 /// An SP1 proof that has been wrapped into a single Groth16 proof and can be verified onchain.
 pub type SP1Groth16Proof = SP1ProofWithMetadata<SP1Groth16ProofData>;
 
+#[cfg(feature = "host")]
 /// An SP1 proof that has been wrapped into a single Plonk proof and can be verified onchain.
 pub type SP1PlonkProof = SP1ProofWithMetadata<SP1PlonkProofData>;
 
@@ -154,9 +157,11 @@ pub struct SP1CoreProofData(pub Vec<ShardProof<CoreSC>>);
 #[derive(Serialize, Deserialize, Clone)]
 pub struct SP1ReducedProofData(pub ShardProof<InnerSC>);
 
+#[cfg(feature = "host")]
 #[derive(Serialize, Deserialize, Clone)]
 pub struct SP1Groth16ProofData(pub Groth16Proof);
 
+#[cfg(feature = "host")]
 #[derive(Serialize, Deserialize, Clone)]
 pub struct SP1PlonkProofData(pub PlonkBn254Proof);
 

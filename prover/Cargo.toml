@@ -10,7 +10,7 @@ sp1-recursion-program = { path = "../recursion/program" }
 sp1-recursion-circuit = { path = "../recursion/circuit" }
 sp1-recursion-compiler = { path = "../recursion/compiler" }
 sp1-recursion-core = { path = "../recursion/core" }
-sp1-recursion-gnark-ffi = { path = "../recursion/gnark-ffi" }
+sp1-recursion-gnark-ffi = { path = "../recursion/gnark-ffi", optional = true }
 sp1-core = { path = "../core" }
 sp1-primitives = { path = "../primitives" }
 p3-field = { workspace = true }
@@ -34,12 +34,12 @@ anyhow = "1.0.83"
 size = "0.4.1"
 dirs = "5.0.1"
 tempfile = "3.10.1"
-tokio = { version = "1.37.0", features = ["full"] }
+tokio = { version = "1.37.0", features = ["full"], optional = true }
 reqwest = { version = "0.12.4", features = [
     "rustls-tls",
     "trust-dns",
     "stream",
-] }
+], optional = true }
 indicatif = "0.17.8"
 futures = "0.3.30"
 subtle-encoding = "0.5.1"
@@ -56,4 +56,6 @@ name = "e2e"
 path = "scripts/e2e.rs"
 
 [features]
+default = ["host"]
 neon = ["sp1-core/neon"]
+host = ["dep:reqwest", "dep:tokio", "dep:sp1-recursion-gnark-ffi"]

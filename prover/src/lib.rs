@@ -12,7 +12,9 @@
 #![allow(clippy::too_many_arguments)]
 #![allow(clippy::new_without_default)]
 
+#[cfg(feature = "host")]
 pub mod build;
+#[cfg(feature = "host")]
 pub mod install;
 pub mod types;
 pub mod utils;
@@ -50,10 +52,16 @@ use sp1_recursion_core::{
     runtime::{RecursionProgram, Runtime as RecursionRuntime},
     stark::{config::BabyBearPoseidon2Outer, RecursionAir},
 };
+
+#[cfg(feature = "host")]
 pub use sp1_recursion_gnark_ffi::plonk_bn254::PlonkBn254Proof;
+#[cfg(feature = "host")]
 use sp1_recursion_gnark_ffi::plonk_bn254::PlonkBn254Prover;
+#[cfg(feature = "host")]
 pub use sp1_recursion_gnark_ffi::Groth16Proof;
+#[cfg(feature = "host")]
 use sp1_recursion_gnark_ffi::Groth16Prover;
+
 use sp1_recursion_program::hints::Hintable;
 pub use sp1_recursion_program::machine::ReduceProgramType;
 use sp1_recursion_program::machine::{
@@ -640,6 +648,7 @@ impl SP1Prover {
     }
 
     /// Wrap the STARK proven over a SNARK-friendly field into a Groth16 proof.
+    #[cfg(feature = "host")]
     #[instrument(name = "wrap_groth16", level = "info", skip_all)]
     pub fn wrap_groth16(&self, proof: SP1ReduceProof<OuterSC>, build_dir: &Path) -> Groth16Proof {
         let vkey_digest = proof.sp1_vkey_digest_bn254();
@@ -664,6 +673,7 @@ impl SP1Prover {
         proof
     }
 
+    #[cfg(feature = "host")]
     pub fn wrap_plonk(&self, proof: ShardProof<OuterSC>, build_dir: PathBuf) -> PlonkBn254Proof {
         let mut witness = Witness::default();
         proof.write(&mut witness);

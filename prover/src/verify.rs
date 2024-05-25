@@ -11,6 +11,7 @@ use sp1_core::{
     utils::BabyBearPoseidon2,
 };
 use sp1_recursion_core::{air::RecursionPublicValues, stark::config::BabyBearPoseidon2Outer};
+#[cfg(feature = "host")]
 use sp1_recursion_gnark_ffi::{Groth16Proof, Groth16Prover};
 use thiserror::Error;
 
@@ -213,6 +214,7 @@ impl SP1Prover {
     }
 
     /// Verifies a Groth16 proof using the circuit artifacts in the build directory.
+    #[cfg(feature = "host")]
     pub fn verify_groth16(
         &self,
         proof: &Groth16Proof,
