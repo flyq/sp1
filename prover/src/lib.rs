@@ -11,6 +11,7 @@
 #![feature(generic_const_exprs)]
 #![allow(clippy::too_many_arguments)]
 #![allow(clippy::new_without_default)]
+#![allow(unused_imports)]
 
 #[cfg(feature = "host")]
 pub mod build;
